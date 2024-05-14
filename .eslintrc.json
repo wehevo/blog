@@ -1,0 +1,9 @@
+{
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "off",
+    "no-unused-vars":"off",
+    "no-undef":"off"
+  }
+}

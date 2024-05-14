@@ -1,7 +1,6 @@
 import { getCookie, setCookie } from "@/utils/cookies";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { styled } from "styled-components";
 
 const HomePage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<string | null>(
@@ -13,9 +12,8 @@ const HomePage = () => {
     if(isAuthenticated === null || isAuthenticated === undefined) {
       setIsAuthenticated("false")
     }
-    console.log(isAuthenticated)
   }, [isAuthenticated])
-  
+
   return (
     <>
       <h1>Home Page</h1>
@@ -40,7 +38,6 @@ const HomePage = () => {
               setCookie("isAuthenticated", "false");
             }}
           >
-            {" "}
             Logout
           </button>
           <button

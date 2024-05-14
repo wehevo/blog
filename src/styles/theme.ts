@@ -1,7 +1,7 @@
 import { DefaultTheme } from "styled-components";
 
-export const darkTheme: DefaultTheme = {  
-  backgroundColor: 'black',
+export const darkTheme: DefaultTheme = {
+  backgroundColor: '#282c34',
   textColor: 'white',
 };
 

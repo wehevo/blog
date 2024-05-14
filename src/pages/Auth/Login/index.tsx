@@ -4,14 +4,15 @@ import { useNavigate } from 'react-router';
 export default function LoginPage() {
   const navigate = useNavigate();
   const visitedURL = getCookie('visitedURL');
+  const onLogin = () => {
+    setCookie('isAuthenticated', "true");
+    navigate(`${visitedURL}`);
+  }
   return (
     <>
       <h1>Login Page</h1>
-      <div>Accessible only without logging in</div>
-      <button onClick={() => {
-          setCookie('isAuthenticated', "true");
-          navigate(`${visitedURL}`);
-        }}>Login</button>
+      <p>Accessible only without logging in</p>
+      <button onClick={onLogin}>Login</button>
     </>
   );
 }

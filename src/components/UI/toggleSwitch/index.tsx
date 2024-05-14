@@ -1,24 +1,19 @@
 import styled from "styled-components";
 import { useState, ChangeEvent } from "react";
 
-export default function ToggleSwitch() {
-  const [switchState, setSwitchState] = useState(true);
-  function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
-    console.log("---", e.target.checked);
-    if(switchState === true) {
-      localStorage.setItem('theme', 'light');
-    } else {
-      localStorage.setItem('theme', 'dark');
-    }
-    setSwitchState(!switchState);
-  }
+interface Props {
+  switchState: boolean;
+  onChangeHandler?: () => void;
+}
+
+export default function ToggleSwitch({switchState, onChangeHandler}: Props) {
   return (
     <StyledLabel htmlFor="checkbox" checked={switchState}>
       <input
         id="checkbox"
         type="checkbox"
         checked={switchState}
-        onChange={handleOnChange}
+        onChange={onChangeHandler}
       />
     </StyledLabel>
   );
