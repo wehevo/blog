@@ -2,9 +2,11 @@ import { useContext } from "react";
 import ToggleSwitch from "../UI/toggleSwitch";
 import { ThemeContext } from "@/context/ThemeProvider";
 import { styled } from "styled-components";
+import { useNavigate } from "react-router";
 
 const Header = () => {
   const { theme, onChangeTheme } = useContext(ThemeContext);
+  const navigate = useNavigate();
   return (
     <Background>
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-2">
@@ -15,7 +17,9 @@ const Header = () => {
           </a>
           <ul className="flex items-center gap-5 font-semibold">
             <li>
-              <a href="/blog/login" className="py-3 block">Login</a>
+              <span onClick={() => {
+                navigate('/blog/login')
+              }} className="py-3 block">Login</span>
             </li>
             <li>
               <a href="/blog/resume" className="py-3 block">Résumé</a>

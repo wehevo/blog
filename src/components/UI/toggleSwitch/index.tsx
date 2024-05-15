@@ -1,5 +1,7 @@
 import styled from "styled-components";
-import { useState, ChangeEvent } from "react";
+import { PiSunBold } from "react-icons/pi";
+import { MdOutlineDarkMode } from "react-icons/md";
+
 
 interface Props {
   switchState: boolean;
@@ -15,6 +17,7 @@ export default function ToggleSwitch({switchState, onChangeHandler}: Props) {
         checked={switchState}
         onChange={onChangeHandler}
       />
+      {switchState ? <SunIcon /> : <DarkIcon />}
     </StyledLabel>
   );
 }
@@ -22,7 +25,7 @@ export default function ToggleSwitch({switchState, onChangeHandler}: Props) {
 const StyledLabel = styled.label<{ checked: boolean }>`
   cursor: pointer;
   text-indent: -9999px;
-  width: 45px;
+  width: 55px;
   height: 26px;
   background: ${({ checked }) => (checked ? "green" : "gray")};
   display: block;
@@ -31,7 +34,7 @@ const StyledLabel = styled.label<{ checked: boolean }>`
   &:after {
     content: "";
     position: absolute;
-    left: ${({ checked }) => (checked ? "4px" : "calc(55% - 4px)")};
+    left: ${({ checked }) => (checked ? "4px" : "calc(55% + 1px)")};
     top: 3px;
     width: 20px;
     height: 20px;
@@ -39,4 +42,18 @@ const StyledLabel = styled.label<{ checked: boolean }>`
     border-radius: 20px;
     transition: 0.3s;
   }
+`;
+
+const SunIcon = styled(PiSunBold)`
+  position: absolute;
+  top: 18%;
+  right: 8px;
+  color: white;
+`;
+
+const DarkIcon = styled(MdOutlineDarkMode)`
+  position: absolute;
+  top: 18%;
+  left: 8px;
+  color: white;
 `;

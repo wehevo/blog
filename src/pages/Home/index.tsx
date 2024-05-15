@@ -1,28 +1,26 @@
-import { getCookie, setCookie } from "@/utils/cookies";
-import { useState, useEffect } from "react";
+import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router";
 
 const HomePage = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<string | null>(
-    getCookie("isAuthenticated")
-  );
+  const [cookies, setCookie] = useCookies(['isAuthenticated']);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if(isAuthenticated === null || isAuthenticated === undefined) {
-      setIsAuthenticated("false")
+  const checkAuth = () => {
+    if (cookies.isAuthenticated === "success") {
+      return true;
+    } else {
+      return false;
     }
-  }, [isAuthenticated])
+  }
 
   return (
     <>
       <h1>Home Page</h1>
-      <div>
+      <div className="font-medium">
         Anyone can access it, regardless of whether they are logged in or not!
       </div>
       <br />
-      <h1>{isAuthenticated}</h1>
-      {isAuthenticated === null || isAuthenticated === "false" ? (
+      {!checkAuth() ? (
         <button
           onClick={() => {
             navigate("/blog/login");
@@ -34,8 +32,7 @@ const HomePage = () => {
         <div>
           <button
             onClick={() => {
-              setIsAuthenticated("false");
-              setCookie("isAuthenticated", "false");
+              setCookie("isAuthenticated", 'failed');
             }}
           >
             Logout
