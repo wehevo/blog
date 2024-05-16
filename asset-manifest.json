@@ -1,21 +1,22 @@
 {
   "files": {
-    "main.css": "/blog/static/css/main.3f3234f5.css",
-    "main.js": "/blog/static/js/main.a3ac64e6.js",
+    "main.css": "/blog/static/css/main.97f2258d.css",
+    "main.js": "/blog/static/js/main.31579250.js",
     "static/js/787.774594b4.chunk.js": "/blog/static/js/787.774594b4.chunk.js",
     "static/media/computer.png": "/blog/static/media/computer.8e259017dff3f2c552be.png",
+    "static/media/PlayfairDisplay-Bold.otf": "/blog/static/media/PlayfairDisplay-Bold.fa891df59099fc3a65e8.otf",
     "static/media/Rubik-Black.otf": "/blog/static/media/Rubik-Black.d2c9fa37e9e2e76aea18.otf",
     "static/media/adversal.otf": "/blog/static/media/adversal.ad0a3fffa5f3a713b0f7.otf",
     "static/media/Outfit-SemiBold.otf": "/blog/static/media/Outfit-SemiBold.69df37363f372bcdc5fd.otf",
     "static/media/Outfit-Regular.otf": "/blog/static/media/Outfit-Regular.1e7987ad13a3388a7d26.otf",
     "static/media/Outfit-Medium.otf": "/blog/static/media/Outfit-Medium.e2e061f0502f7c8245d3.otf",
     "index.html": "/blog/index.html",
-    "main.3f3234f5.css.map": "/blog/static/css/main.3f3234f5.css.map",
-    "main.a3ac64e6.js.map": "/blog/static/js/main.a3ac64e6.js.map",
+    "main.97f2258d.css.map": "/blog/static/css/main.97f2258d.css.map",
+    "main.31579250.js.map": "/blog/static/js/main.31579250.js.map",
     "787.774594b4.chunk.js.map": "/blog/static/js/787.774594b4.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3f3234f5.css",
-    "static/js/main.a3ac64e6.js"
+    "static/css/main.97f2258d.css",
+    "static/js/main.31579250.js"
   ]
 }
