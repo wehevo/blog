@@ -31,7 +31,7 @@ const Header = () => {
   return (
     <Background>
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-2">
-        <nav className="flex items-center justify-between">
+        <nav className="flex items-center justify-between min-h-16">
           <a
             href="/blog"
             className="router-link-active router-link-exact-active font-bold text-xl italic tracking-wide"
@@ -88,16 +88,22 @@ const Header = () => {
           </Mobile>
         </nav>
       </div>
-
-        <Mobile>
-          <MenuList className=" shadow-md" isopen={isOpenMenu}>
-            <p>Home</p>
-            <p>About</p>
-            <p>My Blog</p>
-            <p>Contact</p>
-          </MenuList>
-        </Mobile>
-
+      <Mobile>
+        <MenuList className=" shadow-md" isopen={isOpenMenu}>
+          <button
+            onClick={() => {
+              navigate("/blog/login");
+            }}
+            className="block"
+          >
+            Login
+          </button>
+          <button>Home</button>
+          <button>About</button>
+          <button>My Blog</button>
+          <button>Contact</button>
+        </MenuList>
+      </Mobile>
     </Background>
   );
 };
@@ -123,7 +129,7 @@ const MenuList = styled.div<{ isopen: boolean }>`
   padding: 1rem;
   z-index: 40;
   top: 1;
-  transform: scaleY(${({ isopen }) => (isopen ? '1' : '0')});
+  transform: scaleY(${({ isopen }) => (isopen ? "1" : "0")});
   transform-origin: top;
   transition: transform 0.3s ease-in-out;
 `;
