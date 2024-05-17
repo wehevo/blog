@@ -2,9 +2,10 @@ import { useContext, useState } from "react";
 import { ThemeContext } from "@/context/ThemeProvider";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router";
-import ToggleSwitch from "../UI/ToggleSwitch";
 import { useMediaQuery } from "react-responsive";
 import { IoIosMenu } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
+import ToggleSwitch from "../UI/ToggleSwitch";
 
 const Desktop = ({ children }: any) => {
   const isDesktop = useMediaQuery({ minWidth: 992 });
@@ -23,11 +24,14 @@ const Default = ({ children }: any) => {
   return isNotMobile ? children : null;
 };
 const Header = () => {
-  const { theme, onChangeTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
+  const { theme, onChangeTheme } = useContext(ThemeContext);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const onToggleMenu = () => setIsOpenMenu(!isOpenMenu);
-
+  const onNavigate = (path: string) => {
+    navigate(path);
+    setIsOpenMenu(false);
+  };
   return (
     <Background>
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-2">
@@ -82,7 +86,7 @@ const Header = () => {
                 onChangeHandler={onChangeTheme}
               />
               <button onClick={onToggleMenu}>
-                <IoIosMenu size={30} />
+                {isOpenMenu ? <IoClose size={30} /> : <IoIosMenu size={30} />}
               </button>
             </div>
           </Mobile>
@@ -90,18 +94,13 @@ const Header = () => {
       </div>
       <Mobile>
         <MenuList className=" shadow-md" isopen={isOpenMenu}>
-          <button
-            onClick={() => {
-              navigate("/blog/login");
-            }}
-            className="block"
-          >
+          <button className="w-full" onClick={() => onNavigate("/blog/login")}>
             Login
           </button>
-          <button>Home</button>
-          <button>About</button>
-          <button>My Blog</button>
-          <button>Contact</button>
+          <button className="w-full">Home</button>
+          <button className="w-full">About</button>
+          <button className="w-full">My Blog</button>
+          <button className="w-full">Contact</button>
         </MenuList>
       </Mobile>
     </Background>

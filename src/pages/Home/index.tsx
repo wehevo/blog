@@ -19,6 +19,7 @@ import MediaQuery, { useMediaQuery } from "react-responsive";
 const HomePage = () => {
   const [cookies, setCookie] = useCookies(["isAuthenticated"]);
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 })
 
   const checkAuth = () => {
     if (cookies.isAuthenticated === "success") {
@@ -27,6 +28,28 @@ const HomePage = () => {
       return false;
     }
   };
+
+  const renderMenuBar = () => {
+    return (
+      <div className="border-y border-current w-[98vw] my-6">
+        <div className="flex mx-auto max-w-5xl">
+          <div className="flex-1 grid grid-cols-5">
+            <StyledTab>Home</StyledTab>
+            <StyledTab>About</StyledTab>
+            <StyledTab>My Blog</StyledTab>
+            <StyledTab>Contact</StyledTab>
+            <StyledTab>Search</StyledTab>
+          </div>
+          <div className="flex items-center border-x border-current px-2">
+            <FaFacebookF size={20} className="mx-2 cursor-pointer" />
+            <FaInstagram size={20} className="mx-2 cursor-pointer" />
+            <FaXTwitter size={20} className="mx-2 cursor-pointer" />
+            <FaPinterestP size={20} className="mx-2 cursor-pointer" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -68,23 +91,7 @@ const HomePage = () => {
         <p className="font-fair lg:text-8.25xl lg:leading-relaxed text-7xl text-center">
           Train of Thought
         </p>
-        <div className="border-y border-current w-[98vw] my-6">
-          <div className="flex mx-auto max-w-5xl">
-            <div className="flex-1 grid grid-cols-5">
-              <StyledTab>Home</StyledTab>
-              <StyledTab>About</StyledTab>
-              <StyledTab>My Blog</StyledTab>
-              <StyledTab>Contact</StyledTab>
-              <StyledTab>Search</StyledTab>
-            </div>
-            <div className="flex items-center border-x border-current px-2">
-              <FaFacebookF size={20} className="mx-2 cursor-pointer" />
-              <FaInstagram size={20} className="mx-2 cursor-pointer" />
-              <FaXTwitter size={20} className="mx-2 cursor-pointer" />
-              <FaPinterestP size={20} className="mx-2 cursor-pointer" />
-            </div>
-          </div>
-        </div>
+        {!isMobile && renderMenuBar()}
         <BlogFeaturedCard />
       </div>
     </>
