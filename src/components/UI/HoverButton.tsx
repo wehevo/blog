@@ -8,26 +8,3 @@ export default function HoverButton() {
     </button>
   );
 }
-
-const Container = styled.div`
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 5rem;
-  margin-bottom: 5rem;
-  max-width: 61rem;
-  // overflow: hidden;
-  background: ${({ theme }) => theme.backgroundColor};
-  border-width: 1px;
-  border-color: ${({ theme }) => theme.borderColor};
-`;
-
-const TopTitle = styled.p`
-  position: absolute;
-  top: -2rem;
-  left: -1px;
-  z-index: 1;
-  border-width: 1px;
-  background: ${({ theme }) => theme.backgroundColor};
-  border-color: ${({ theme }) => theme.borderColor};
-`;
