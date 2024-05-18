@@ -15,9 +15,9 @@ export default function BlogFeaturedCard() {
         FEATURED POST
       </TopTitle>
       <img
-        src="https://images.unsplash.com/photo-1552581234-26160f608093?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+        src="https://static.wixstatic.com/media/c22c23_89024a2cd2e943a6b89d99404958e3bb~mv2.jpg/v1/fill/w_940,h_529,fp_0.50_0.50,q_90,enc_auto/c22c23_89024a2cd2e943a6b89d99404958e3bb~mv2.jpg"
         className="aspect-video w-full object-cover"
-        alt=""
+        alt="post-image"
       />
       <div className="p-8">
         <p className="mb-5 text-sm">
@@ -38,7 +38,7 @@ const Container = styled.div`
   margin-left: auto;
   margin-right: auto;
   margin-top: 5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3.5rem;
   max-width: 61rem;
   // overflow: hidden;
   background: ${({ theme }) => theme.backgroundColor};

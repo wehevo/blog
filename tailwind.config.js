@@ -12,7 +12,10 @@ module.exports = {
         'heavy': '0.2em',
         'heavier': '0.4em',
         'heaviest': '0.3em',
-      }
+      },
+      maxWidth: {
+        '8xl': '88rem',
+      },
     },
   },
   plugins: [],

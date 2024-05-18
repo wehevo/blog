@@ -67,8 +67,7 @@ const Header = () => {
                   target="_blank"
                   className="py-3 block"
                 >
-                  {" "}
-                  GitHub{" "}
+                  {"GitHub"}
                 </a>
               </li>
               <li>
