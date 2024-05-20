@@ -11,11 +11,31 @@ import BlogCard from "@/components/UI/BlogCard";
 import ArrowUpperIcon from "@/assets/images/svg/ArrowUpperIcon";
 import CustomInput from "@/components/UI/CustomInput";
 import CustomTextarea from "@/components/UI/CustomTextarea";
+import { useState } from "react";
+import About from "./About";
+import MyBlog from "./MyBlog";
+import {
+  CSSTransition,
+  TransitionGroup,
+} from "react-transition-group";
+
+enum TabType {
+  Home = "Home",
+  About = "About",
+  MyBlog = "My Blog",
+  Contact = "Contact",
+  Search = "Search"
+}
 
 const HomePage = () => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const [cookies, setCookie] = useCookies(["isAuthenticated"]);
+  const [renderTabType, setRenderTabType] = useState<TabType>(TabType.Home);
+
+  const onScrollTop = () => {
+    window.scrollTo(0, 0);
+  };
 
   const onLogin = () => {
     navigate("/blog/login");
@@ -45,10 +65,28 @@ const HomePage = () => {
         <div className="border-y border-current">
           <div className="flex mx-auto max-w-5xl">
             <div className="flex-1 grid grid-cols-5">
-              <StyledTab>Home</StyledTab>
-              <StyledTab>About</StyledTab>
-              <StyledTab>My Blog</StyledTab>
-              <StyledTab>Contact</StyledTab>
+              <StyledTab
+                onClick={() => {
+                  setRenderTabType(TabType.Home);
+                }}
+              >
+                Home
+              </StyledTab>
+              <StyledTab
+                onClick={() => {
+                  setRenderTabType(TabType.About);
+                }}
+              >
+                About
+              </StyledTab>
+              <StyledTab
+                onClick={() => {
+                  setRenderTabType(TabType.MyBlog);
+                }}
+              >
+                My Blog
+              </StyledTab>
+              <StyledTab href="#contact">Contact</StyledTab>
               <StyledTab>Search</StyledTab>
             </div>
             <div className="flex items-center border-x border-current px-2">
@@ -239,8 +277,11 @@ const HomePage = () => {
 
   const renderContact = () => {
     return (
-      <div className="w-full flex flex-col justify-center items-center mt-7">
-        <button>
+      <div
+        id="contact"
+        className="w-full flex flex-col justify-center items-center mt-7"
+      >
+        <button onClick={onScrollTop}>
           <ArrowUpperIcon />
         </button>
         <p className="font-fair md:text-4xl text-3xl text-center">
@@ -254,28 +295,52 @@ const HomePage = () => {
           <CustomInput label="Email *" type="email" name="email" />
           <CustomTextarea label="Message..." name="message" />
           <div className="md:w-1/3 w-1/2 mx-auto">
-            <ShapeButton name={"Submit"} shapeType={ShapeType.FullWidth}/>
+            <ShapeButton name={"Submit"} shapeType={ShapeType.FullWidth} />
           </div>
         </div>
         <div className="mb-12"></div>
       </div>
     );
   };
-
+  const renderHome = () => {
+    return (
+      <div>
+        <BlogFeaturedCard />
+        {renderSubscribe()}
+        {renderBody()}
+      </div>
+    );
+  };
   return (
     <div className="column_flex_center mt-10 mb-2">
       {renderHeader()}
       {!isMobile && renderMenuBar()}
-      <BlogFeaturedCard />
-      {renderSubscribe()}
-      {renderBody()}
+      <TransitionGroup>
+        <CSSTransition
+          key={renderTabType}
+          timeout={500}
+          classNames="fade"
+        >
+          {renderTabType === TabType.Home ? (
+            renderHome()
+          ) : renderTabType === TabType.About ? (
+            <About />
+          ) : renderTabType === TabType.MyBlog ? (
+            <MyBlog />
+          ) : renderTabType === TabType.Contact ? (
+            <div>Search</div>
+          ) : (
+            <></>
+          )}
+        </CSSTransition>
+      </TransitionGroup>
       {renderContact()}
     </div>
   );
 };
 export default HomePage;
 
-const StyledTab = styled.div`
+const StyledTab = styled.a`
   text-align: center;
   font-weight: 300;
   border-left: 1px solid;
