@@ -6,6 +6,8 @@ import { useMediaQuery } from "react-responsive";
 import { IoIosMenu } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import ToggleSwitch from "../UI/ToggleSwitch";
+import { useContextHeaderTab } from "@/context/HeaderTabProvider";
+import { TabType } from "@/types/enum";
 
 const Desktop = ({ children }: any) => {
   const isDesktop = useMediaQuery({ minWidth: 992 });
@@ -23,6 +25,7 @@ const Default = ({ children }: any) => {
   const isNotMobile = useMediaQuery({ minWidth: 768 });
   return isNotMobile ? children : null;
 };
+
 const Header = () => {
   const navigate = useNavigate();
   const { theme, onChangeTheme } = useContext(ThemeContext);
@@ -32,6 +35,13 @@ const Header = () => {
     navigate(path);
     setIsOpenMenu(false);
   };
+  const {changeTabType} = useContextHeaderTab();
+
+  const onChangeTab = (tabType: TabType) => {
+    changeTabType(tabType);
+    setIsOpenMenu(false);
+  }
+
   return (
     <Background>
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-2">
@@ -96,10 +106,10 @@ const Header = () => {
           <button className="w-full" onClick={() => onNavigate("/blog/login")}>
             Login
           </button>
-          <button className="w-full">Home</button>
-          <button className="w-full">About</button>
-          <button className="w-full">My Blog</button>
-          <button className="w-full">Contact</button>
+          <button onClick={()=>{onChangeTab(TabType.Home)}} className="w-full">Home</button>
+          <button onClick={()=>{onChangeTab(TabType.About)}} className="w-full">About</button>
+          <button onClick={()=>{onChangeTab(TabType.MyBlog)}} className="w-full">My Blog</button>
+          <button onClick={()=>{onChangeTab(TabType.Contact)}} className="w-full">Contact</button>
         </MenuList>
       </Mobile>
     </Background>

@@ -11,31 +11,35 @@ import BlogCard from "@/components/UI/BlogCard";
 import ArrowUpperIcon from "@/assets/images/svg/ArrowUpperIcon";
 import CustomInput from "@/components/UI/CustomInput";
 import CustomTextarea from "@/components/UI/CustomTextarea";
-import { useState } from "react";
 import About from "./About";
 import MyBlog from "./MyBlog";
 import {
   CSSTransition,
   TransitionGroup,
 } from "react-transition-group";
-
-enum TabType {
-  Home = "Home",
-  About = "About",
-  MyBlog = "My Blog",
-  Contact = "Contact",
-  Search = "Search"
-}
+import { TabType } from "@/types/enum";
+import { useContextHeaderTab } from "@/context/HeaderTabProvider";
+import { LegacyRef, useEffect, useRef } from "react";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const [cookies, setCookie] = useCookies(["isAuthenticated"]);
-  const [renderTabType, setRenderTabType] = useState<TabType>(TabType.Home);
-
+  const {tabType, changeTabType} = useContextHeaderTab();
+  const contactRef = useRef<HTMLElement | null>(null);
   const onScrollTop = () => {
     window.scrollTo(0, 0);
   };
+  const onScrollContact = () => {
+    if(contactRef.current == null) return;
+    contactRef.current.scrollIntoView({behavior: "smooth"});
+    // window.scrollTo(0, contactRef.current.offsetTop);
+  }
+  useEffect(() => {
+    if(tabType == TabType.Contact) {
+      onScrollTop();
+    }
+  }, [tabType])
 
   const onLogin = () => {
     navigate("/blog/login");
@@ -67,26 +71,29 @@ const HomePage = () => {
             <div className="flex-1 grid grid-cols-5">
               <StyledTab
                 onClick={() => {
-                  setRenderTabType(TabType.Home);
+                  changeTabType(TabType.Home);
                 }}
               >
                 Home
               </StyledTab>
               <StyledTab
                 onClick={() => {
-                  setRenderTabType(TabType.About);
+                  changeTabType(TabType.About);
                 }}
               >
                 About
               </StyledTab>
               <StyledTab
                 onClick={() => {
-                  setRenderTabType(TabType.MyBlog);
+                  changeTabType(TabType.MyBlog);
                 }}
               >
                 My Blog
               </StyledTab>
-              <StyledTab href="#contact">Contact</StyledTab>
+              <StyledTab onClick={()=>{
+                onScrollContact();
+                changeTabType(TabType.Contact);
+              }}>Contact</StyledTab>
               <StyledTab>Search</StyledTab>
             </div>
             <div className="flex items-center border-x border-current px-2">
@@ -278,7 +285,8 @@ const HomePage = () => {
   const renderContact = () => {
     return (
       <div
-        id="contact"
+        ref={contactRef as LegacyRef<HTMLDivElement>}
+        // id="contact"
         className="w-full flex flex-col justify-center items-center mt-7"
       >
         <button onClick={onScrollTop}>
@@ -317,18 +325,16 @@ const HomePage = () => {
       {!isMobile && renderMenuBar()}
       <TransitionGroup>
         <CSSTransition
-          key={renderTabType}
+          key={tabType}
           timeout={500}
           classNames="fade"
         >
-          {renderTabType === TabType.Home ? (
+          {tabType === TabType.Home || tabType === TabType.Contact ? (
             renderHome()
-          ) : renderTabType === TabType.About ? (
+          ) : tabType === TabType.About ? (
             <About />
-          ) : renderTabType === TabType.MyBlog ? (
+          ) : tabType === TabType.MyBlog ? (
             <MyBlog />
-          ) : renderTabType === TabType.Contact ? (
-            <div>Search</div>
           ) : (
             <></>
           )}

@@ -3,6 +3,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { CookiesProvider } from "react-cookie";
+import { HeaderTabProvider } from "@/context/HeaderTabProvider";
 import ThemeProvider from "@/context/ThemeProvider";
 
 const root = ReactDOM.createRoot(
@@ -11,7 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <ThemeProvider>
     <CookiesProvider>
-      <App />
+      <HeaderTabProvider>
+        <App />
+      </HeaderTabProvider>
     </CookiesProvider>
   </ThemeProvider>
 );
