@@ -18,6 +18,8 @@ import { TabType } from "@/types/enum";
 import { useContextHeaderTab } from "@/context/HeaderTabProvider";
 import { LegacyRef, useEffect, useRef } from "react";
 import { Direction } from "@/types/enum";
+import SocialCard from "@/components/UI/SocialCard";
+import SearchInput from "@/components/UI/SearchInput";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -25,6 +27,7 @@ const HomePage = () => {
   const [cookies, setCookie] = useCookies(["isAuthenticated"]);
   const { tabType, changeTabType } = useContextHeaderTab();
   const contactRef = useRef<HTMLElement | null>(null);
+  const aboutRef = useRef<HTMLElement | null>(null);
   const onScrollTop = () => {
     window.scrollTo(0, 0);
   };
@@ -33,10 +36,15 @@ const HomePage = () => {
     contactRef.current.scrollIntoView({ behavior: "smooth" });
     // window.scrollTo(0, contactRef.current.offsetTop);
   };
+  const onScrollAbout = () => {
+    if (aboutRef.current == null) return;
+    aboutRef.current.scrollIntoView({ behavior: "smooth" });
+  };
   useEffect(() => {
     if (tabType == TabType.Contact) {
       onScrollContact();
     }
+    else if(tabType == TabType.About) onScrollAbout();
   }, [tabType]);
 
   const onLogin = () => {
@@ -90,12 +98,16 @@ const HomePage = () => {
               </StyledTab>
               <StyledTab
                 onClick={() => {
-                  changeTabType(TabType.Contact);
+                  if(tabType !== TabType.Contact)
+                    changeTabType(TabType.Contact);
+                  else onScrollContact();
                 }}
               >
                 Contact
               </StyledTab>
-              <StyledTab>Search</StyledTab>
+              <div className=" border-l border-current">
+                <SearchInput type="text" name="search"/>
+              </div>
             </div>
             <div className="flex items-center border-x border-current px-2">
               <FaFacebookF size={20} className="mx-2 cursor-pointer" />
@@ -190,51 +202,17 @@ const HomePage = () => {
                 <br />I am diplomatic in resolving disputes and coordinating
                 diverse teams.
               </p>
-              <p className="py-12 border-b border-current">{"Read More >>"}</p>
+              <p onClick={()=>{changeTabType(TabType.About);}} className="py-12 cursor-pointer hover:text-blue-500">{"Read More >>"}</p>
+              <div className="border-b border-current"></div>
               <p className=" text-start lg:text-2xl lg:tracking-heavist text-lg tracking-heavy font-light py-10">
                 FOLLOW ME
               </p>
               <div className="grid grid-cols-2 gap-3">
-                <img
-                  src="https://static.parastorage.com/services/instagram-cdn/1.691.0/assets/ig-templates-accounts/Editor/Personal%20Blog/01.jpg"
-                  alt="follow-image"
-                />
-                <img
-                  src="https://static.parastorage.com/services/instagram-cdn/1.691.0/assets/ig-templates-accounts/Editor/Personal%20Blog/02.jpg"
-                  alt="follow-image"
-                />
-                <img
-                  src="https://static.parastorage.com/services/instagram-cdn/1.691.0/assets/ig-templates-accounts/Editor/Personal%20Blog/03.jpg"
-                  alt="follow-image"
-                />
-                <img
-                  src="https://static.parastorage.com/services/instagram-cdn/1.691.0/assets/ig-templates-accounts/Editor/Personal%20Blog/04.jpg"
-                  alt="follow-image"
-                />
-                <img
-                  src="https://static.parastorage.com/services/instagram-cdn/1.691.0/assets/ig-templates-accounts/Editor/Personal%20Blog/05.jpg"
-                  alt="follow-image"
-                />
-                <img
-                  src="https://static.parastorage.com/services/instagram-cdn/1.691.0/assets/ig-templates-accounts/Editor/Personal%20Blog/06.jpg"
-                  alt="follow-image"
-                />
-                <img
-                  src="https://static.parastorage.com/services/instagram-cdn/1.691.0/assets/ig-templates-accounts/Editor/Personal%20Blog/07.jpg"
-                  alt="follow-image"
-                />
-                <img
-                  src="https://static.parastorage.com/services/instagram-cdn/1.691.0/assets/ig-templates-accounts/Editor/Personal%20Blog/08.jpg"
-                  alt="follow-image"
-                />
-                <img
-                  src="https://static.parastorage.com/services/instagram-cdn/1.691.0/assets/ig-templates-accounts/Editor/Personal%20Blog/09.jpg"
-                  alt="follow-image"
-                />
-                <img
-                  src="https://static.parastorage.com/services/instagram-cdn/1.691.0/assets/ig-templates-accounts/Editor/Personal%20Blog/10.jpg"
-                  alt="follow-image"
-                />
+                {
+                  Array.from({ length: 10 }).map((_, index) => (
+                    <SocialCard key={index} index={index + 1} />
+                  ))
+                }
               </div>
               <div className="my-10 border-y border-current py-4 px-10 flex justify-between items-center">
                 <FaFacebookF size={22} className="mx-2 cursor-pointer" />
@@ -329,7 +307,9 @@ const HomePage = () => {
           {tabType === TabType.Home || tabType === TabType.Contact ? (
             renderHome()
           ) : tabType === TabType.About ? (
-            <About />
+            <div ref={aboutRef as LegacyRef<HTMLDivElement>}>
+              <About />
+            </div>
           ) : tabType === TabType.MyBlog ? (
             <MyBlog />
           ) : (
@@ -343,12 +323,11 @@ const HomePage = () => {
 };
 export default HomePage;
 
-const StyledTab = styled.a`
+const StyledTab = styled.button`
   text-align: center;
   font-weight: 300;
   border-left: 1px solid;
   padding: 14px 0 14px;
-  cursor: pointer;
 `;
 
 const StyledInput = styled.input`
