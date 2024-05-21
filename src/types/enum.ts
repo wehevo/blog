@@ -5,3 +5,8 @@ export enum TabType {
   Contact = "Contact",
   Search = "Search"
 }
+
+export enum Direction {
+  Horizontal = "horizontal",
+  Vertical = "vertical"
+}

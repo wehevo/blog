@@ -1,20 +1,20 @@
 import styled from "styled-components";
-import { PiSunBold } from "react-icons/pi";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { CiHeart } from "react-icons/ci";
+import { Direction } from "@/types/enum";
 
 interface Props {
   src?: string;
+  direction?: Direction;
 }
 
-export default function BlogCard({src}: Props) {
+export default function BlogCard({src, direction = Direction.Horizontal}: Props) {
   const default_img = "https://images.unsplash.com/photo-1715498114790-c06348e610b9?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
   return (
-    <StyledBack className="flex">
-      <img
+    <StyledBack className="flex" direction={direction}>
+      <StyledImage direction={direction}
         src={src ?? default_img}
-        className="w-5/12 object-cover"
-        alt=""
+        alt="blog-image"
       />
       <div className="py-6 sm:pl-6 pl-3 sm:pr-10 pr-3 flex-1 flex flex-col justify-between overflow-hidden">
         <div>
@@ -29,7 +29,7 @@ export default function BlogCard({src}: Props) {
             punchy sentences and entices your audience to continue reading punchy
           </TextDescription>
         </div>
-        <div className="border-t pt-4 flex justify-between items-center">
+        {direction == Direction.Horizontal ? <div className="border-t pt-4 flex justify-between items-center">
           <div className="flex gap-2">
             <p className="text-xs">0 views</p>
             <p className="text-xs">0 comments</p>
@@ -38,21 +38,28 @@ export default function BlogCard({src}: Props) {
             <p className="text-xs mr-1">10</p>
             <CiHeart size={20} color={'red'}/>
           </div>
-        </div>
+        </div>: <div className="h-5"></div>}
       </div>
     </StyledBack>
   );
 }
 
-const StyledBack = styled.div`
+const StyledBack = styled.div<{direction: Direction}>`
+  flex-direction: ${(props) => props.direction == Direction.Horizontal ? 'row' : 'column'};
   margin-left: auto;
   margin-right: auto;
-  max-width: 36rem;
+  // max-width: 36rem;
   min-height: 22rem;
   overflow: hidden;
   background: ${({ theme }) => theme.backgroundColor};
   border-width: 1px;
   border-color: ${({ theme }) => theme.borderColor};
+`;
+
+const StyledImage = styled.img<{direction: Direction}>`
+  width: ${(props) => props.direction == Direction.Horizontal ? '42%' : '100%'};
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
 `;
 
 const TextTitle = styled.p`

@@ -13,33 +13,31 @@ import CustomInput from "@/components/UI/CustomInput";
 import CustomTextarea from "@/components/UI/CustomTextarea";
 import About from "./About";
 import MyBlog from "./MyBlog";
-import {
-  CSSTransition,
-  TransitionGroup,
-} from "react-transition-group";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { TabType } from "@/types/enum";
 import { useContextHeaderTab } from "@/context/HeaderTabProvider";
 import { LegacyRef, useEffect, useRef } from "react";
+import { Direction } from "@/types/enum";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const [cookies, setCookie] = useCookies(["isAuthenticated"]);
-  const {tabType, changeTabType} = useContextHeaderTab();
+  const { tabType, changeTabType } = useContextHeaderTab();
   const contactRef = useRef<HTMLElement | null>(null);
   const onScrollTop = () => {
     window.scrollTo(0, 0);
   };
   const onScrollContact = () => {
-    if(contactRef.current == null) return;
-    contactRef.current.scrollIntoView({behavior: "smooth"});
+    if (contactRef.current == null) return;
+    contactRef.current.scrollIntoView({ behavior: "smooth" });
     // window.scrollTo(0, contactRef.current.offsetTop);
-  }
+  };
   useEffect(() => {
-    if(tabType == TabType.Contact) {
-      onScrollTop();
+    if (tabType == TabType.Contact) {
+      onScrollContact();
     }
-  }, [tabType])
+  }, [tabType]);
 
   const onLogin = () => {
     navigate("/blog/login");
@@ -90,10 +88,13 @@ const HomePage = () => {
               >
                 My Blog
               </StyledTab>
-              <StyledTab onClick={()=>{
-                onScrollContact();
-                changeTabType(TabType.Contact);
-              }}>Contact</StyledTab>
+              <StyledTab
+                onClick={() => {
+                  changeTabType(TabType.Contact);
+                }}
+              >
+                Contact
+              </StyledTab>
               <StyledTab>Search</StyledTab>
             </div>
             <div className="flex items-center border-x border-current px-2">
@@ -324,11 +325,7 @@ const HomePage = () => {
       {renderHeader()}
       {!isMobile && renderMenuBar()}
       <TransitionGroup>
-        <CSSTransition
-          key={tabType}
-          timeout={500}
-          classNames="fade"
-        >
+        <CSSTransition key={tabType} timeout={500} classNames="fade">
           {tabType === TabType.Home || tabType === TabType.Contact ? (
             renderHome()
           ) : tabType === TabType.About ? (
