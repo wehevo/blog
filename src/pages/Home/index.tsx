@@ -20,6 +20,7 @@ import { LegacyRef, useEffect, useRef } from "react";
 import { Direction } from "@/types/enum";
 import SocialCard from "@/components/UI/SocialCard";
 import SearchInput from "@/components/UI/SearchInput";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -110,7 +111,7 @@ const HomePage = () => {
               </div>
             </div>
             <div className="flex items-center border-x border-current px-2">
-              <FaFacebookF size={20} className="mx-2 cursor-pointer" />
+              <Link to={"https://www.facebook.com/Wehevoo/"} target="_blank"><FaFacebookF size={20} className="mx-2 cursor-pointer" /></Link>
               <FaInstagram size={20} className="mx-2 cursor-pointer" />
               <FaXTwitter size={20} className="mx-2 cursor-pointer" />
               <FaPinterestP size={20} className="mx-2 cursor-pointer" />

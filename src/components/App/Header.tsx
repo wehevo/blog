@@ -8,6 +8,7 @@ import { IoClose } from "react-icons/io5";
 import ToggleSwitch from "../UI/ToggleSwitch";
 import { useContextHeaderTab } from "@/context/HeaderTabProvider";
 import { TabType } from "@/types/enum";
+import { Link } from "react-router-dom";
 
 const Desktop = ({ children }: any) => {
   const isDesktop = useMediaQuery({ minWidth: 992 });
@@ -46,39 +47,39 @@ const Header = () => {
     <Background>
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-2">
         <nav className="flex items-center justify-between min-h-16">
-          <a
-            href="/blog"
+          <Link
+            to="/blog"
             className="router-link-active router-link-exact-active font-bold text-xl italic tracking-wide"
           >
             <span>WEHE</span>
             <span className="text-gray-500">VO</span>
-          </a>
+          </Link>
           <Default>
             <ul className="flex items-center gap-5 font-semibold">
               <li>
-                <span
+                <button
                   onClick={() => {
                     navigate("/blog/login");
                   }}
                   className="py-3 block"
                 >
                   Login
-                </span>
+                </button>
               </li>
               <li>
-                <a href="/blog/resume" className="py-3 block">
+                <Link to="/blog/resume" className="py-3 block">
                   Résumé
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="https://github.com/wehevo"
+                <Link
+                  to="https://github.com/wehevo"
                   rel="noopener noreferrer"
                   target="_blank"
                   className="py-3 block"
                 >
                   {"GitHub"}
-                </a>
+                </Link>
               </li>
               <li>
                 <ToggleSwitch
