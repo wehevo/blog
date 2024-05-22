@@ -8,15 +8,15 @@ interface Props {
 
 export default function SearchInput({type, name}: Props) {
   return (
-    <div className="relative h-full">
-      <button className="absolute right-3 top-4"><CiSearch size={20}/></button>
+    <div className="relative h-full flex">
       <StyledInput
         type={type}
         name={name}
         placeholder="Search"
         required
-        className="md:mb-0 mb-4 w-full h-full bg-transparent pl-3 focus:border-b border-blue-400"
+        className="md:mb-0 mb-4 w-full h-full bg-transparent px-2 focus:border-b border-blue-400"
       />
+      <button className=" mr-2 top-4"><CiSearch size={20}/></button>
     </div>
   );
 }
