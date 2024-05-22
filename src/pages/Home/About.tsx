@@ -4,7 +4,7 @@ export default function About() {
   const title = "Hey! So Glad You're Here.";
 
   return (
-    <div className="w-screen md:px-5">
+    <div className="md:px-5">
       <div className="md:px-0 px-4">
         <Container className="mx-4">
           <img

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { CiHeart } from "react-icons/ci";
 import { Direction } from "@/types/enum";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   src?: string;
@@ -9,9 +10,11 @@ interface Props {
 }
 
 export default function BlogCard({src, direction = Direction.Horizontal}: Props) {
+  const navigate = useNavigate();
   const default_img = "https://images.unsplash.com/photo-1715498114790-c06348e610b9?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  let title="Do Not Leave Tokyo Before Eating This Ramen";
   return (
-    <StyledBack className="flex" direction={direction}>
+    <StyledBack className="flex" direction={direction} onClick={()=>{navigate(`/blog/post/${title}`)}}>
       <StyledImage direction={direction}
         src={src ?? default_img}
         alt="blog-image"
@@ -21,9 +24,7 @@ export default function BlogCard({src, direction = Direction.Horizontal}: Props)
           <p className="mb-5 text-sm">
             Wehevo C • <time>18 May 2024</time>
           </p>
-          <TextTitle className="">
-            Do Not Leave Tokyo Before Eating This Ramen
-          </TextTitle>
+          <TextTitle>{title}</TextTitle>
           <TextDescription className="">
             Create a blog post subtitle that summarizes your post in a few short,
             punchy sentences and entices your audience to continue reading punchy

@@ -6,6 +6,14 @@ export enum TabType {
   Search = "Search"
 }
 
+export enum BlogTabType {
+  AllPosts = "all-posts",
+  Travel = "travel",
+  MyTop = "my-top",
+  ArtCalture = "art-calture",
+}
+
+
 export enum Direction {
   Horizontal = "horizontal",
   Vertical = "vertical"

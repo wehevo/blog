@@ -1,10 +1,10 @@
 import { DashboardPage } from '@/pages';
-import { AppLayout } from '@/layouts/AppLayout';
+import { EmptyLayout } from '@/layouts/EmptyLayout';
 
 export const privateRoutes = [
   {
     path: '/blog/dashboard',
     element: <DashboardPage />,
-    layout: AppLayout
+    layout: EmptyLayout
   }
 ];

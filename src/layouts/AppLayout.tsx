@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "@/components/App/Header";
+import HeaderMenu from "@/components/App/HeaderMenu";
 
 export function AppLayout({
   children
@@ -7,9 +8,8 @@ export function AppLayout({
   return (
     <>
       <Header />
-      <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-8xl">
-        {children}
-      </div>
+      <HeaderMenu />
+      {children}
     </>
   );
 }
