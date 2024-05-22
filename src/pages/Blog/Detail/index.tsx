@@ -23,6 +23,9 @@ export default function BlogDetail() {
   const navigate = useNavigate();
   const [currentOption, setCurrentOption] = useState<blogOptionType>(blogOptions[0]);
 
+  let thisIsMyCopy = `
+  <p><span style="color: #e03e2d;">Welcome to TinyMCE!</span></p>
+<p><span style="color: #e03e2d;"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTUzn7-qinvq-jbUgQWNL-OfnXUFXfxbtwMs6-Utey3A&amp;s" alt="" width="275" height="183"></span></p>`;
   useEffect(() => {
     console.log(blogTabType)
     const tabIndex = Object.values(BlogTabType).indexOf(blogTabType);
@@ -102,6 +105,8 @@ export default function BlogDetail() {
         <p className="md:text-2xl text-xl font-bold mb-6">Create Relevant Content</p>
         <p className="text-lg font-light mb-6">Welcome to your blog post. Use this space to connect with your readers and potential customers in a way that’s current and interesting. Think of it as an ongoing conversation where you can share updates about business, trends, news, and more.</p>
         <p className="text-lg font-light">Welcome to your blog post. Use this space to connect with your readers and potential customers in a way that’s current and interesting. Think of it as an ongoing conversation where you can share updates about business, trends, news, and more.</p>
+        <div className="content" dangerouslySetInnerHTML={{__html: thisIsMyCopy}}></div>
+
         <div className="border-t border-current pt-4 md:mt-14 mt-6 flex justify-between">
           <div className="flex gap-8">
             <FaFacebookF />

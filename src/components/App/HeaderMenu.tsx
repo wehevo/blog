@@ -2,7 +2,7 @@ import { useContextHeaderTab } from "@/context/HeaderTabProvider";
 import { TabType } from "@/types/enum";
 import { styled } from "styled-components";
 import SearchInput from "@/components/UI/SearchInput";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaFacebookF, FaInstagram, FaPinterestP } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { useMediaQuery } from "react-responsive";
@@ -10,7 +10,7 @@ import { useMediaQuery } from "react-responsive";
 export default function HeaderMenu() {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const { tabType, changeTabType } = useContextHeaderTab();
-
+  const navigate = useNavigate();
   const renderTitle = () => {
     return(
       <>
@@ -32,6 +32,7 @@ export default function HeaderMenu() {
               <StyledTab
                 onClick={() => {
                   changeTabType(TabType.Home);
+                  navigate('/blog');
                 }}
               >
                 Home
@@ -39,6 +40,7 @@ export default function HeaderMenu() {
               <StyledTab
                 onClick={() => {
                   changeTabType(TabType.About);
+                  navigate('/blog');
                 }}
               >
                 About
@@ -46,6 +48,7 @@ export default function HeaderMenu() {
               <StyledTab
                 onClick={() => {
                   changeTabType(TabType.MyBlog);
+                  navigate('/blog');
                 }}
               >
                 My Blog
@@ -53,6 +56,7 @@ export default function HeaderMenu() {
               <StyledTab
                 onClick={() => {
                   changeTabType(TabType.Contact);
+                  navigate('/blog');
                 }}
               >
                 Contact

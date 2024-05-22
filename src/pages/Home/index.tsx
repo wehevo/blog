@@ -17,6 +17,7 @@ import { TabType } from "@/types/enum";
 import { useContextHeaderTab } from "@/context/HeaderTabProvider";
 import { LegacyRef, useEffect, useRef } from "react";
 import SocialCard from "@/components/UI/SocialCard";
+import ShareButton from "@/components/UI/ShareButton";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -244,6 +245,7 @@ const HomePage = () => {
         </CSSTransition>
       </TransitionGroup>
       {renderContact()}
+      <ShareButton text="hello" url="https://audiomobile.xyz/vibe?id=8754"/>
     </>
   );
 };
