@@ -13,9 +13,12 @@ export default function MyBlog() {
   const { blogTabType, changeBlogTabType } = useContextHeaderTab();
   const [tab, setTab] = useState<number>(0);
   const { theme } = useContext(ThemeContext);
+  const [currentOption, setCurrentOption] = useState<blogOptionType>(blogOptions[0]);
 
   useEffect(() => {
-    setTab(Object.values(BlogTabType).indexOf(blogTabType));
+    const tabIndex = Object.values(BlogTabType).indexOf(blogTabType);
+    setTab(tabIndex);
+    setCurrentOption(blogOptions[tabIndex]);
   }, []);
 
   const colourStyles: StylesConfig = {
@@ -45,6 +48,7 @@ export default function MyBlog() {
   const onChangeTab = (index: number) => {
     changeBlogTabType(getEnumValueByIndex(BlogTabType, index) as BlogTabType);
     setTab(index);
+    setCurrentOption(blogOptions[index]);
   };
   const renderTabs = () => {
     return isMobile ? (
@@ -52,6 +56,7 @@ export default function MyBlog() {
         <Select
           options={blogOptions}
           defaultValue={blogOptions[0]}
+          value={currentOption}
           styles={colourStyles}
           onChange={(e) => {
             onChangeTab(blogOptions.indexOf(e as blogOptionType));

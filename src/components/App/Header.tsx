@@ -41,6 +41,7 @@ const Header = () => {
   const onChangeTab = (tabType: TabType) => {
     changeTabType(tabType);
     setIsOpenMenu(false);
+    onNavigate("/blog")
   }
 
   return (
