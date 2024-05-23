@@ -9,6 +9,7 @@ import ToggleSwitch from "../UI/ToggleSwitch";
 import { useContextHeaderTab } from "@/context/HeaderTabProvider";
 import { TabType } from "@/types/enum";
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const Desktop = ({ children }: any) => {
   const isDesktop = useMediaQuery({ minWidth: 992 });
@@ -31,6 +32,16 @@ const Header = () => {
   const navigate = useNavigate();
   const { theme, onChangeTheme } = useContext(ThemeContext);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const [cookies, setCookie] = useCookies(["isAuthenticated"]);
+
+  const checkAuth = () => {
+    if (cookies.isAuthenticated === "success") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   const onToggleMenu = () => setIsOpenMenu(!isOpenMenu);
   const onNavigate = (path: string) => {
     navigate(path);
@@ -58,14 +69,22 @@ const Header = () => {
           <Default>
             <ul className="flex items-center gap-5 font-semibold">
               <li>
-                <button
+                {!checkAuth() ? <button
                   onClick={() => {
                     navigate("/blog/login");
                   }}
                   className="py-3 block"
                 >
                   Login
-                </button>
+                </button> :
+                <button
+                  onClick={() => {
+                    navigate("/blog/dashboard");
+                  }}
+                  className="py-3 block"
+                >
+                  Dashboard
+                </button>}
               </li>
               <li>
                 <Link to="/blog/resume" className="py-3 block">
@@ -105,9 +124,12 @@ const Header = () => {
       </div>
       <Mobile>
         <MenuList className=" shadow-md" isopen={isOpenMenu}>
-          <button className="w-full" onClick={() => onNavigate("/blog/login")}>
+          {!checkAuth() ? <button className="w-full" onClick={() => onNavigate("/blog/login")}>
             Login
-          </button>
+          </button> :
+          <button className="w-full" onClick={() => onNavigate("/blog/dashboard")}>
+            Dashboard
+          </button>}
           <button onClick={()=>{onChangeTab(TabType.Home)}} className="w-full">Home</button>
           <button onClick={()=>{onChangeTab(TabType.About)}} className="w-full">About</button>
           <button onClick={()=>{onChangeTab(TabType.MyBlog)}} className="w-full">My Blog</button>

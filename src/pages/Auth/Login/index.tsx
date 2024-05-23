@@ -7,7 +7,8 @@ export default function LoginPage() {
   const visitedURL = cookies.visitedURL || '/blog';
   const onLogin = () => {
     setCookie('isAuthenticated', 'success');
-    navigate(`${visitedURL}`);
+    // navigate(`${visitedURL}`);
+    navigate('/blog/dashboard')
   }
   return (
     <div className="bg-gray-100 flex justify-center items-center h-screen">
