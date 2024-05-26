@@ -15,16 +15,20 @@ import MyBlog from "./MyBlog";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { TabType } from "@/types/enum";
 import { useContextHeaderTab } from "@/context/HeaderTabProvider";
-import { LegacyRef, useEffect, useRef } from "react";
+import { LegacyRef, useEffect, useRef, useState } from "react";
 import SocialCard from "@/components/UI/SocialCard";
 import ShareButton from "@/components/UI/ShareButton";
+import { firestore } from "@/utils/firebase";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies(["isAuthenticated"]);
   const { tabType, changeTabType } = useContextHeaderTab();
+  const [cookies, setCookie] = useCookies(["isAuthenticated"]);
   const contactRef = useRef<HTMLElement | null>(null);
   const aboutRef = useRef<HTMLElement | null>(null);
+  const [featuredPost, setFeaturedPost] = useState<any>({});
+  const [blogData, setBlogData] = useState<any>([]);
+
   const onScrollTop = () => {
     window.scrollTo(0, 0);
   };
@@ -40,8 +44,7 @@ const HomePage = () => {
   useEffect(() => {
     if (tabType == TabType.Contact) {
       onScrollContact();
-    }
-    else if(tabType == TabType.About) onScrollAbout();
+    } else if (tabType == TabType.About) onScrollAbout();
   }, [tabType]);
 
   const onLogin = () => {
@@ -53,18 +56,36 @@ const HomePage = () => {
   const onDashboard = () => {
     navigate("/blog/dashboard");
   };
-
+  useEffect(() => {
+    const bucket = firestore.collection("blog");
+    bucket.doc("post").get().then((doc) => {
+      if(doc.exists)
+        setFeaturedPost({ id: doc.id, ...doc.data() });
+    });
+    bucket.get().then((docs) => {
+      // docs.forEach((doc) => {
+      //   if (doc.exists) {
+      //     console.log(doc.data());
+      //     console.log(doc.id);
+      //   }
+      // });
+      const _blogData = docs.docs.map((doc) => {
+        return { id: doc.id, ...doc.data() };
+      });
+      setBlogData(_blogData);
+    });
+  }, []);
   const renderSubscribe = () => {
     return (
-        <div className="flex flex-col md:flex-row border-y border-current lg:mt-3 lg:py-14 py-9">
-          <p className="flex-1 font-fair text-3xl text-center my-auto">
-            Never Miss a New Post.
-          </p>
-          <div className="flex flex-1 md:flex-row flex-col justify-center md:items-end items-center gap-3 lg:mt-0 mt-10">
-            <CustomInput label="Enter your email *" type="email" name="email" />
-            <ShapeButton name={"Subscribe"} />
-          </div>
+      <div className="flex flex-col md:flex-row border-y border-current lg:mt-3 lg:py-14 py-9">
+        <p className="flex-1 font-fair text-3xl text-center my-auto">
+          Never Miss a New Post.
+        </p>
+        <div className="flex flex-1 md:flex-row flex-col justify-center md:items-end items-center gap-3 lg:mt-0 mt-10">
+          <CustomInput label="Enter your email *" type="email" name="email" />
+          <ShapeButton name={"Subscribe"} />
         </div>
+      </div>
     );
   };
 
@@ -126,23 +147,28 @@ const HomePage = () => {
             />
             <p className=" text-base leading-7 font-light mt-8">
               I am 10-year experienced senior developer proficient in managing
-              programming operations with exceptional team supervision,
-              project coordination, and analytical problem-solving skills.
+              programming operations with exceptional team supervision, project
+              coordination, and analytical problem-solving skills.
               <br />I optimizes resources used to achieve challenging targets.
               <br />I am diplomatic in resolving disputes and coordinating
               diverse teams.
             </p>
-            <p onClick={()=>{changeTabType(TabType.About);}} className="py-12 cursor-pointer hover:text-blue-500">{"Read More >>"}</p>
+            <p
+              onClick={() => {
+                changeTabType(TabType.About);
+              }}
+              className="py-12 cursor-pointer hover:text-blue-500"
+            >
+              {"Read More >>"}
+            </p>
             <div className="border-b border-current"></div>
             <p className=" text-start lg:text-2xl lg:tracking-heavist text-lg tracking-heavy font-light py-10">
               FOLLOW ME
             </p>
             <div className="grid grid-cols-2 gap-3">
-              {
-                Array.from({ length: 10 }).map((_, index) => (
-                  <SocialCard key={index} index={index + 1} />
-                ))
-              }
+              {Array.from({ length: 10 }).map((_, index) => (
+                <SocialCard key={index} index={index + 1} />
+              ))}
             </div>
             <div className="my-10 border-y border-current py-4 px-10 flex justify-between items-center">
               <FaFacebookF size={22} className="mx-2 cursor-pointer" />
@@ -221,7 +247,7 @@ const HomePage = () => {
   const renderHome = () => {
     return (
       <div className="md:px-5">
-        <BlogFeaturedCard />
+        { featuredPost && <BlogFeaturedCard data={featuredPost}/> }
         {renderSubscribe()}
         {renderBody()}
       </div>
@@ -245,18 +271,11 @@ const HomePage = () => {
         </CSSTransition>
       </TransitionGroup>
       {renderContact()}
-      <ShareButton text="hello" url="https://audiomobile.xyz/vibe?id=8754"/>
+      <ShareButton text="hello" url="https://audiomobile.xyz/vibe?id=8754" />
     </>
   );
 };
 export default HomePage;
-
-const StyledTab = styled.button`
-  text-align: center;
-  font-weight: 300;
-  border-left: 1px solid;
-  padding: 14px 0 14px;
-`;
 
 const StyledInput = styled.input`
   &:focus {

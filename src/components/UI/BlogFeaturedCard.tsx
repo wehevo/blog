@@ -1,12 +1,24 @@
+import { defaultImage } from "@/utils/constants";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-// interface Props {
-//   switchState: boolean;
-//   onChangeHandler?: () => void;
-// }
+interface Props {
+  id: string;
+  title: string;
+  description: string;
+  image?: string;
+  date?: string;
+}
 
-export default function BlogFeaturedCard() {
-  const title = "Back to Fiction: What I'm Reading This Summer";
+interface ContainerProps {
+  data: Props;
+}
+
+export default function BlogFeaturedCard({data}: ContainerProps) {
+  const navigate = useNavigate();
+  const onDetails = () => {
+    navigate(`/blog/post/${data.id}`);
+  }
   return (
     <div className="px-4">
       <Container>
@@ -14,18 +26,17 @@ export default function BlogFeaturedCard() {
           FEATURED POST
         </TopTitle>
         <img
-          src="https://static.wixstatic.com/media/c22c23_89024a2cd2e943a6b89d99404958e3bb~mv2.jpg/v1/fill/w_940,h_529,fp_0.50_0.50,q_90,enc_auto/c22c23_89024a2cd2e943a6b89d99404958e3bb~mv2.jpg"
+          src={data.image ? data.image : defaultImage}
           className="aspect-video w-full object-cover"
           alt="post-image"
         />
         <div className="p-8">
           <p className="mb-5 text-sm">
-            Wehevo C • <time>18 May 2024</time>
+            Wehevo C • <time>{data.date}</time>
           </p>
-          <p className="text-3xl font-medium mb-3">{title}</p>
+          <p onClick={onDetails} className="text-3xl font-medium mb-3 cursor-pointer hover:text-blue-400">{data.title}</p>
           <p className="mt-1 text-base font-light">
-            Create a blog post subtitle that summarizes your post in a few short,
-            punchy sentences and entices your audience to continue reading....
+            {data.description}
           </p>
         </div>
       </Container>

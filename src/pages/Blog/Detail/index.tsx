@@ -4,34 +4,39 @@ import { useMediaQuery } from "react-responsive";
 import { ThemeContext } from "@/context/ThemeProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import { useContextHeaderTab } from "@/context/HeaderTabProvider";
-import { blogOptionType, blogOptions } from "@/utils/constants";
+import { blogOptionType, blogOptions, defaultImage } from "@/utils/constants";
 import { getEnumValueByIndex } from "@/utils/helpers";
 import { BlogTabType } from "@/types/enum";
 import { IoIosLink } from "react-icons/io";
 import { FaFacebookF } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-
-const default_img = "https://images.unsplash.com/photo-1715498114790-c06348e610b9?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-
+import { firestore } from "@/utils/firebase";
 
 export default function BlogDetail() {
   let { slug } = useParams();
   const { blogTabType, changeBlogTabType } = useContextHeaderTab();
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const { theme } = useContext(ThemeContext);
-
+  const [postData, setPostData] = useState<any>(null);
   const navigate = useNavigate();
   const [currentOption, setCurrentOption] = useState<blogOptionType>(blogOptions[0]);
 
-  let thisIsMyCopy = `
-  <p><span style="color: #e03e2d;">Welcome to TinyMCE!</span></p>
-<p><span style="color: #e03e2d;"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTUzn7-qinvq-jbUgQWNL-OfnXUFXfxbtwMs6-Utey3A&amp;s" alt="" width="275" height="183"></span></p>`;
   useEffect(() => {
-    console.log(blogTabType)
     const tabIndex = Object.values(BlogTabType).indexOf(blogTabType);
-    console.log(tabIndex)
     setCurrentOption(blogOptions[tabIndex]);
+
   }, []);
+
+  useEffect(() => {
+    const bucket = firestore.collection("blog");
+    bucket.doc(slug).get().then((doc) => {
+      if(doc.exists)
+      {
+        console.log(doc)
+        setPostData({ id: doc.id, ...doc.data() });
+      }
+    });
+  })
 
   const colourStyles: StylesConfig = {
     control: (styles) => ({
@@ -96,16 +101,16 @@ export default function BlogDetail() {
     return (
       <div className=" md:px-16 px-4 md:py-16 py-7 border border-current">
         <p className="mb-6 text-sm font-light">
-          Wehevo C • <time>18 May 2024</time>
+          Wehevo C • <time>{postData.date}</time>
         </p>
-        <p className="font-fair md:text-4.5xl text-3xl leading-tight mb-6">{slug}</p>
-        <p className=" text-lg font-medium mb-6">Create a blog post subtitle that summarizes your post in a few short, punchy sentences and entices your audience to continue reading.</p>
-        <img src={default_img} alt="blog-image" className=" aspect-video object-cover mb-6"/>
-        <p className="text-lg font-light mb-6">Welcome to your blog post. Use this space to connect with your readers and potential customers in a way that’s current and interesting. Think of it as an ongoing conversation where you can share updates about business, trends, news, and more.</p>
+        <p className="font-fair md:text-4.5xl text-3xl leading-tight mb-6">{postData.title}</p>
+        <p className=" text-lg font-medium mb-6">{postData.description}</p>
+        <img src={defaultImage} alt="blog-image" className=" aspect-video object-cover mb-6"/>
+        {/* <p className="text-lg font-light mb-6">Welcome to your blog post. Use this space to connect with your readers and potential customers in a way that’s current and interesting. Think of it as an ongoing conversation where you can share updates about business, trends, news, and more.</p>
         <p className="md:text-2xl text-xl font-bold mb-6">Create Relevant Content</p>
         <p className="text-lg font-light mb-6">Welcome to your blog post. Use this space to connect with your readers and potential customers in a way that’s current and interesting. Think of it as an ongoing conversation where you can share updates about business, trends, news, and more.</p>
-        <p className="text-lg font-light">Welcome to your blog post. Use this space to connect with your readers and potential customers in a way that’s current and interesting. Think of it as an ongoing conversation where you can share updates about business, trends, news, and more.</p>
-        <div className="content" dangerouslySetInnerHTML={{__html: thisIsMyCopy}}></div>
+        <p className="text-lg font-light">Welcome to your blog post. Use this space to connect with your readers and potential customers in a way that’s current and interesting. Think of it as an ongoing conversation where you can share updates about business, trends, news, and more.</p> */}
+        <div className="content" dangerouslySetInnerHTML={{__html: postData.content}}></div>
 
         <div className="border-t border-current pt-4 md:mt-14 mt-6 flex justify-between">
           <div className="flex gap-8">
@@ -123,7 +128,7 @@ export default function BlogDetail() {
     <div className="md:px-5">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
         {renderTabs()}
-        {renderBlogDetail()}
+        {postData && renderBlogDetail()}
       </div>
       <div className="mt-16 border-b border-current"></div>
     </div>

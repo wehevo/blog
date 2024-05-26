@@ -3,15 +3,52 @@ import { Editor } from "@tinymce/tinymce-react";
 import { styled } from "styled-components";
 import { RiCloseCircleLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import ShapeButton from "@/components/UI/ShapeButton";
+import { firestore } from "@/utils/firebase";
 
 const DashboardPage = () => {
   const editorRef = useRef<any>(null);
+  const checkRef = useRef<any>(null);
+  const titleRef = useRef<any>(null);
+  const descRef = useRef<any>(null);
+  const imageRef = useRef<any>(null);
+  const dateRef = useRef<any>(null);
   const navigate = useNavigate();
   const log = () => {
+    console.log(dateRef.current.value);
     if (editorRef.current) {
       console.log(editorRef?.current?.getContent());
     }
   };
+  const onPost = () => {
+    if(titleRef.current?.value === "" || descRef.current?.value === "" || imageRef.current?.value === "" || dateRef.current?.value === "" || editorRef?.current?.getContent() === "") {
+      alert("Please fill all the fields");
+      return;
+    }
+    const bucket = firestore.collection("blog");
+
+    if(checkRef.current?.checked) {
+      bucket.doc("post").set({
+        title: titleRef.current?.value,
+        description: descRef.current?.value,
+        image: imageRef.current?.value,
+        date: dateRef.current?.value,
+        content: editorRef?.current?.getContent()
+      });
+    }
+    else{
+      bucket.add({
+        title: titleRef.current?.value,
+        description: descRef.current?.value,
+        image: imageRef.current?.value,
+        date: dateRef.current?.value,
+        content: editorRef?.current?.getContent()
+      }).then((docRef) => {
+        alert("Post added successfully, ID: " + docRef.id);
+      });
+
+    }
+  }
   const onClose = () => {
     navigate("/blog")
   }
@@ -22,11 +59,16 @@ const DashboardPage = () => {
         <RiCloseCircleLine size={32} />
       </button>
       <div className="mb-4 pt-7">
+        <span>Featured Post</span>
+        <input ref={checkRef} type="checkbox" className=" ml-4 scale-125" />
+      </div>
+      <div className="mb-4">
         <label className="text-xl">
           Title
           <span className="text-red-500">*</span>
         </label>
         <StyledInput
+          ref={titleRef}
           type="text"
           name="title"
           id="title"
@@ -35,14 +77,38 @@ const DashboardPage = () => {
           className="md:mb-0 mb-4 bg-transparent border w-full border-current px-0 py-3 pl-3 focus:border-blue-600 focus:outline-none rounded-lg"
         />
       </div>
-
       <div className="mb-4">
         <label className="text-xl">Description</label>
         <StyledInput
+          ref={descRef}
           type="text"
           name="description"
           id="description"
           placeholder=""
+          required
+          className="md:mb-0 mb-4 bg-transparent border w-full border-current px-0 py-3 pl-3 focus:border-blue-600 focus:outline-none rounded-lg"
+        />
+      </div>
+      <div className="mb-4">
+        <label className="text-xl">Image</label>
+        <StyledInput
+          ref={imageRef}
+          type="text"
+          name="image"
+          id="image"
+          placeholder=""
+          required
+          className="md:mb-0 mb-4 bg-transparent border w-full border-current px-0 py-3 pl-3 focus:border-blue-600 focus:outline-none rounded-lg"
+        />
+      </div>
+      <div className="mb-4">
+        <label className="text-xl">Date</label>
+        <StyledInput
+          ref={dateRef}
+          type="date"
+          name="date"
+          id="date"
+          placeholder="24 May 2024"
           required
           className="md:mb-0 mb-4 bg-transparent border w-full border-current px-0 py-3 pl-3 focus:border-blue-600 focus:outline-none rounded-lg"
         />
@@ -69,7 +135,10 @@ const DashboardPage = () => {
         }}
         initialValue="Welcome to TinyMCE!"
       />
-      <button onClick={log}>Log editor content</button>
+      {/* <button className="mt-4 mb-8 border border-current" onClick={log}>Submit</button> */}
+      <div className="my-6 w-full flex justify-center">
+        <ShapeButton name={"Post"} onClickHandler={onPost} />
+      </div>
     </div>
   );
 };
