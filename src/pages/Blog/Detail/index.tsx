@@ -32,11 +32,11 @@ export default function BlogDetail() {
     bucket.doc(slug).get().then((doc) => {
       if(doc.exists)
       {
-        console.log(doc)
+        // console.log(doc)
         setPostData({ id: doc.id, ...doc.data() });
       }
     });
-  })
+  }, [])
 
   const colourStyles: StylesConfig = {
     control: (styles) => ({
