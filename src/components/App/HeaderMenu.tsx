@@ -61,7 +61,7 @@ export default function HeaderMenu() {
               >
                 Contact
               </StyledTab>
-              <div className=" border-l border-current">
+              <div className="border-l border-current">
                 <SearchInput type="text" name="search"/>
               </div>
             </div>

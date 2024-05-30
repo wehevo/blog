@@ -105,7 +105,7 @@ export default function BlogDetail() {
         </p>
         <p className="font-fair md:text-4.5xl text-3xl leading-tight mb-6">{postData.title}</p>
         <p className=" text-lg font-medium mb-6">{postData.description}</p>
-        <img src={defaultImage} alt="blog-image" className=" aspect-video object-cover mb-6"/>
+        <img src={postData.image ?? defaultImage} alt="blog-image" className=" aspect-video object-cover mb-6"/>
         {/* <p className="text-lg font-light mb-6">Welcome to your blog post. Use this space to connect with your readers and potential customers in a way that’s current and interesting. Think of it as an ongoing conversation where you can share updates about business, trends, news, and more.</p>
         <p className="md:text-2xl text-xl font-bold mb-6">Create Relevant Content</p>
         <p className="text-lg font-light mb-6">Welcome to your blog post. Use this space to connect with your readers and potential customers in a way that’s current and interesting. Think of it as an ongoing conversation where you can share updates about business, trends, news, and more.</p>

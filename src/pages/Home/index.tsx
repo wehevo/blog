@@ -98,37 +98,9 @@ const HomePage = () => {
               TRAIN OF THOUGHT
             </p>
             <div className="flex flex-col gap-8 mb-8">
-              <BlogCard />
-              <BlogCard
-                src={
-                  "https://static.wixstatic.com/media/c22c23_5ab44dfe10f84b5e90e19db16bd06ae3~mv2.png/v1/fill/w_740,h_416,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/c22c23_5ab44dfe10f84b5e90e19db16bd06ae3~mv2.png"
-                }
-              />
-              <BlogCard
-                src={
-                  "https://static.wixstatic.com/media/c22c23_5a6f262789ea450393f4b3c6bc3247df~mv2.jpg/v1/fill/w_740,h_430,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/c22c23_5a6f262789ea450393f4b3c6bc3247df~mv2.jpg"
-                }
-              />
-              <BlogCard
-                src={
-                  "https://static.wixstatic.com/media/c22c23_ea4c50693f8f473b9ba056fc36032ae4~mv2.jpg/v1/fill/w_740,h_416,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/c22c23_ea4c50693f8f473b9ba056fc36032ae4~mv2.jpg"
-                }
-              />
-              <BlogCard
-                src={
-                  "https://static.wixstatic.com/media/c22c23_e3b5cb121db549fdbb1590f51d378b8c~mv2.png/v1/fill/w_740,h_416,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/c22c23_e3b5cb121db549fdbb1590f51d378b8c~mv2.png"
-                }
-              />
-              <BlogCard
-                src={
-                  "https://static.wixstatic.com/media/c22c23_89024a2cd2e943a6b89d99404958e3bb~mv2.jpg/v1/fill/w_940,h_529,fp_0.50_0.50,q_90,enc_auto/c22c23_89024a2cd2e943a6b89d99404958e3bb~mv2.jpg"
-                }
-              />
-              <BlogCard
-                src={
-                  "https://static.wixstatic.com/media/c22c23_a31ea2b671fe4cddbbb5728c9310c756~mv2_d_5659_3773_s_4_2.jpg/v1/fill/w_740,h_493,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/c22c23_a31ea2b671fe4cddbbb5728c9310c756~mv2_d_5659_3773_s_4_2.jpg"
-                }
-              />
+              {blogData.map((data: any, index: number) => (
+                <BlogCard key={index} data={data} />
+              ))}
             </div>
             <div className="flex w-full justify-center">
               <ShapeButton name={"More Posts"} />

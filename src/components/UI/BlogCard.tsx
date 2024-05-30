@@ -3,31 +3,38 @@ import { MdOutlineDarkMode } from "react-icons/md";
 import { CiHeart } from "react-icons/ci";
 import { Direction } from "@/types/enum";
 import { useNavigate } from "react-router-dom";
+import { defaultImage } from "@/utils/constants";
 
 interface Props {
-  src?: string;
-  direction?: Direction;
+  id: string;
+  title: string;
+  description: string;
+  image?: string;
+  date?: string;
 }
 
-export default function BlogCard({src, direction = Direction.Horizontal}: Props) {
+interface ContainerProps {
+  direction?: Direction;
+  data?: Props;
+}
+
+export default function BlogCard({data, direction = Direction.Horizontal}: ContainerProps) {
   const navigate = useNavigate();
-  const default_img = "https://images.unsplash.com/photo-1715498114790-c06348e610b9?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
   let title="Do Not Leave Tokyo Before Eating This Ramen";
   return (
-    <StyledBack className="flex" direction={direction} onClick={()=>{navigate(`/blog/post/${title}`)}}>
+    <StyledBack className="flex cursor-pointer" direction={direction} onClick={()=>{navigate(`/blog/post/${data?.id}`)}}>
       <StyledImage direction={direction}
-        src={src ?? default_img}
+        src={data?.image ?? defaultImage}
         alt="blog-image"
       />
       <div className="py-6 sm:pl-6 pl-3 sm:pr-10 pr-3 flex-1 flex flex-col justify-between overflow-hidden">
         <div>
           <p className="mb-5 text-sm">
-            Wehevo C • <time>18 May 2024</time>
+            Wehevo C • <time>{data?.date}</time>
           </p>
-          <TextTitle>{title}</TextTitle>
+          <TextTitle>{data?.title ?? title}</TextTitle>
           <TextDescription className="">
-            Create a blog post subtitle that summarizes your post in a few short,
-            punchy sentences and entices your audience to continue reading punchy
+            {data?.description}
           </TextDescription>
         </div>
         {direction == Direction.Horizontal ? <div className="border-t pt-4 flex justify-between items-center">
